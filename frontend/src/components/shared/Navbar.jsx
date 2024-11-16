@@ -7,7 +7,9 @@ import {
 import { Avatar, AvatarImage } from "@radix-ui/react-avatar"; // Import Avatar components
 import { LogOutIcon, User2 } from "lucide-react";
 
+
 const Navbar = () => {
+  const user =false;
   return (
     <div className="bg-white absolute top-0 left-0 w-full">
       <div className="flex items-center justify-between max-w-7xl mx-auto h-16">
@@ -24,8 +26,15 @@ const Navbar = () => {
             <li>Jobs</li>
             <li>Browse</li>
           </ul>
-          {/* Popover Component */}
-          <Popover>
+          {
+            !user ?(
+              <div className="flex items-center gap-2">
+                <button className="bg-[#f5f4f6] hover:bg-[#b5b3b3]">Login</button>
+                <button className="bg-[#b289f7] hover:bg-[#9b68f4]">Signup</button>
+                </div>
+
+            ) :(
+              <Popover>
             <PopoverTrigger asChild>
               <Avatar className="cursor-pointer">
                 <AvatarImage
@@ -49,18 +58,26 @@ const Navbar = () => {
                   <p>Marky is a Good Mern Stacker</p>
                 </div>
               </div>
-              <div>
-                <button className="text-black-500 bg-transparent hover:underline focus:outline-none">
-                  <User2/>
-                  View Profile
-                </button>
-                <button className="text-black-500 bg-transparent hover:underline focus:outline-none">
-                <LogOutIcon/>
-                  Logout</button>
-
+              <div className="flex flex-col my-2 text-gray-600">
+                <div className="flex w-fit items-center gap-2 cursor-pointer">
+                  <button className="flex items-center gap-2 text-black-500 bg-transparent hover:underline focus:outline-none">
+                    <User2 />
+                    <span>View Profile</span>
+                  </button>
+                </div>
+                <div className="flex w-fit items-center gap-2 cursor-pointer">
+                  <button className="flex items-center gap-2 text-black-500 bg-transparent hover:underline focus:outline-none">
+                    <LogOutIcon />
+                    <span>Logout</span>
+                  </button>
+                </div>
               </div>
             </PopoverContent>
-          </Popover>  
+          </Popover>
+            )
+          }
+          
+          
         </div>
       </div>
     </div>
