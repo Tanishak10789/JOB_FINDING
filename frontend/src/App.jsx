@@ -8,7 +8,6 @@ function App() {
   return (
     <>
     <Navbar/>
-      <h1 className="text-red-500">hello world</h1> {/* Example Tailwind class */}
     </>
   );
 }
