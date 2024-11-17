@@ -5,15 +5,14 @@ import { Input } from '../ui/input';
 import { RadioGroup } from '../ui/radio-group';
 import { Button } from '../ui/Button';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios'
-import { USER_API_END_POINT } from '@/utils/constant'
+import axios from 'axios';
+import { USER_API_END_POINT } from '@/utils/constant';
 import { toast } from 'sonner';
-// import { useDispatch, useSelector } from 'react-redux'
-// import { setLoading } from '@/redux/authSlice'
-// import { Loader2 } from 'lucide-react'
+import { useDispatch, useSelector } from 'react-redux';
+import { setLoading } from '@/redux/authSlice';
+import { Loader2 } from 'lucide-react';
 
 const Signup = () => {
-    // State for input values
     const [input, setInput] = useState({
         fullname: "",
         email: "",
@@ -23,21 +22,18 @@ const Signup = () => {
         file: ""
     });
 
-    // const { loading, user } = useSelector(store => store.auth);
-    // const dispatch = useDispatch();
+    const { loading, user } = useSelector(store => store.auth);
+    const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    // Event handler for input changes
     const changeEventHandler = (e) => {
         setInput({ ...input, [e.target.name]: e.target.value });
     };
 
-    // Event handler for file input changes
     const changeFileHandler = (e) => {
         setInput({ ...input, file: e.target.files?.[0] });
     };
 
-    // Submit handler for the form
     const submitHandler = async (e) => {
         e.preventDefault();
         const formData = new FormData();
@@ -51,7 +47,7 @@ const Signup = () => {
         }
 
         try {
-    //         dispatch(setLoading(true));
+            dispatch(setLoading(true));
             const res = await axios.post(`${USER_API_END_POINT}/register`, formData, {
                 headers: { 'Content-Type': "multipart/form-data" },
                 withCredentials: true,
@@ -63,26 +59,21 @@ const Signup = () => {
         } catch (error) {
             console.log(error);
             toast.error(error.response.data.message);
-    //     } finally {
-    //         dispatch(setLoading(false));
-        // }
+        } finally {
+            dispatch(setLoading(false));
+        }
     };
-
-    // Redirect if user is already logged in
-    // useEffect(() => {
-    //     if (user) {
-    //         navigate("/");
-    //     }
-    // }, []);
-    // console.log(input);
-}
 
     return (
         <div>
             <Navbar />
-            <div className="flex items-center justify-center px-6">
-            <form onSubmit={submitHandler}  className="w-full max-w-md lg:max-w-xl xl:max-w-2xl border border-gray-200 rounded-lg p-8 bg-white shadow-md mx-auto">                    <h1 className="font-bold text-2xl mb-6 text-center">Sign Up</h1>
-
+            <div className="flex items-center justify-center px-6 py-8">
+                <form
+                    onSubmit={submitHandler}
+                    className="w-full max-w-md lg:max-w-xl xl:max-w-2xl border border-gray-200 rounded-lg p-8 bg-white shadow-md mx-auto"
+                >
+                    {/* Centering the heading properly */}
+                    <h1 className="font-bold text-3xl mb-6 text-center text-gray-900">Sign Up</h1>
                     <div className="mb-4">
                         <Label>Full Name</Label>
                         <Input
@@ -90,11 +81,10 @@ const Signup = () => {
                             name="fullname"
                             value={input.fullname}
                             onChange={changeEventHandler}
-                            placeholder="marky"
+                            placeholder="Marky"
                             className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                     </div>
-
                     <div className="mb-4">
                         <Label>Email</Label>
                         <Input
@@ -106,7 +96,6 @@ const Signup = () => {
                             className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                     </div>
-
                     <div className="mb-4">
                         <Label>Phone Number</Label>
                         <Input
@@ -118,7 +107,6 @@ const Signup = () => {
                             className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                     </div>
-
                     <div className="mb-4">
                         <Label>Password</Label>
                         <Input
@@ -130,7 +118,6 @@ const Signup = () => {
                             className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                     </div>
-
                     <div className="mb-6">
                         <RadioGroup className="flex items-center gap-6">
                             <div className="flex items-center">
@@ -157,7 +144,6 @@ const Signup = () => {
                             </div>
                         </RadioGroup>
                     </div>
-
                     <div className="mb-6">
                         <Label>Profile</Label>
                         <Input
@@ -167,13 +153,24 @@ const Signup = () => {
                             className="cursor-pointer w-full"
                         />
                     </div>
-
-                    <Button type="submit" className="w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-200">
-                        Signup
-                    </Button>
-
+                    {loading ? (
+                        <Button className="w-full py-4">
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            Please wait
+                        </Button>
+                    ) : (
+                        <Button
+                            type="submit"
+                            className="w-full py-4 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-200"
+                        >
+                            Signup
+                        </Button>
+                    )}
                     <p className="text-center text-sm mt-4">
-                        Already have an account? <Link to="/login" className="text-blue-600 hover:underline">Login</Link>
+                        Already have an account?{" "}
+                        <Link to="/login" className="text-blue-600 hover:underline">
+                            Login
+                        </Link>
                     </p>
                 </form>
             </div>
@@ -182,4 +179,3 @@ const Signup = () => {
 };
 
 export default Signup;
-    
